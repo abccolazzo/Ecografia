@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Indice Ecografia</title>
+<style>
+@font-face{font-family:"Oswald";font-weight:200 700;font-style:normal;font-display:swap;src:url("assets/Oswald-latin.woff2") format("woff2");unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"Oswald";font-weight:200 700;font-style:normal;font-display:swap;src:url("assets/Oswald-latin-ext.woff2") format("woff2");unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+1E00-1EFF,U+20A0-20AB,U+20AD-20C4,U+2C60-2C7F,U+A720-A7FF}
+:root{
+  --bg:#f4f6f7; --panel:#ffffff; --ink:#22303a; --muted:#5d6d77; --line:#dce3e6;
+  --accent:#c94a0e; --accent-soft:#fdeee5; --mark:#fff0a8; --chip:#e8f0f3; --shadow:0 1px 2px rgba(0,0,0,.05);
+  --brand:#f16523; --brand-d:#d9531a; --blue:#7fa9b8; --blue-d:#3e6f80; --display:"Oswald","Arial Narrow",Arial,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root{ --bg:#141b1f; --panel:#1d272d; --ink:#e8eef0; --muted:#9fb0b8; --line:#2d3a41;
+    --accent:#ff8247; --accent-soft:#3a2418; --mark:#6b5d12; --chip:#26343b; --shadow:none;
+    --brand:#ff8247; --brand-d:#f16523; --blue:#8db8c6; --blue-d:#9cc5d2; }
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+a{color:var(--accent)}
+header{position:sticky;top:0;z-index:5;background:var(--panel);border-bottom:1px solid var(--line);padding:12px 20px;display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+header h1{font-size:18px;margin:0 12px 0 0;white-space:nowrap}
+header h1 small{display:block;font-weight:400;font-size:12px;color:var(--muted)}
+#q{flex:1 1 280px;min-width:0;padding:9px 12px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font-size:15px}
+nav.tabs{display:flex;gap:4px;flex-wrap:wrap}
+nav.tabs button{border:1px solid var(--line);background:var(--panel);color:var(--ink);padding:7px 12px;border-radius:8px;cursor:pointer;font-size:14px}
+nav.tabs button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.wrap{display:grid;grid-template-columns:320px 1fr;gap:0;min-height:calc(100vh - 62px)}
+aside{border-right:1px solid var(--line);background:var(--panel);padding:14px 16px;position:sticky;top:62px;height:calc(100vh - 62px);overflow:auto}
+main{padding:18px 24px 60px;min-width:0}
+aside h3{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:16px 0 6px}
+aside h3:first-child{margin-top:0}
+.toc details{margin:2px 0}
+.toc summary{cursor:pointer;padding:3px 0;font-weight:600}
+.toc .sec{font-size:12px;color:var(--muted);margin:6px 0 2px 14px;text-transform:uppercase;letter-spacing:.04em}
+.toc a{display:block;margin:0 0 0 14px;padding:3px 6px;border-radius:5px;text-decoration:none;color:var(--ink);font-size:13px;line-height:1.35}
+.toc a:hover{background:var(--accent-soft)}
+.toc .count{color:var(--muted);font-weight:400;font-size:12px}
+.chips{display:flex;flex-wrap:wrap;gap:5px}
+.chip{border:1px solid transparent;background:var(--chip);color:var(--ink);padding:3px 9px;border-radius:999px;font-size:12.5px;cursor:pointer;line-height:1.5}
+.chip.on{background:var(--accent);color:#fff}
+.chip .n{opacity:.65;margin-left:3px}
+.status{color:var(--muted);font-size:13px;margin:0 0 12px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.status button{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:6px;padding:3px 8px;cursor:pointer;font-size:12.5px}
+h2.week{font-size:20px;margin:28px 0 4px;padding-top:6px}
+h2.week:first-of-type{margin-top:0}
+.weeksub{color:var(--muted);font-size:13px;margin:0 0 6px}
+h3.sec{font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:var(--accent);margin:18px 0 8px;border-bottom:1px solid var(--line);padding-bottom:4px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 16px;margin:0 0 10px;box-shadow:var(--shadow);scroll-margin-top:80px}
+.card.flash{outline:3px solid var(--accent)}
+.card h4{margin:0 0 3px;font-size:15.5px;line-height:1.35}
+.card .meta{color:var(--muted);font-size:13px;margin-bottom:6px}
+.card .sum{margin:0 0 8px}
+.card .foot{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:12.5px}
+.badge{background:var(--chip);border-radius:5px;padding:1px 7px;color:var(--muted)}
+.badge.wk{background:var(--accent-soft);color:var(--accent);cursor:pointer}
+.tag{background:transparent;border:1px solid var(--line);border-radius:999px;padding:0 7px;color:var(--muted);cursor:pointer}
+.tag:hover{border-color:var(--accent);color:var(--accent)}
+.also{font-size:12.5px;color:var(--muted)}
+.also a{cursor:pointer}
+mark{background:var(--mark);color:inherit;border-radius:2px}
+table.files{width:100%;border-collapse:collapse;background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+table.files th,table.files td{text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);font-size:14px;vertical-align:top}
+table.files th{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.theme-group h2{font-size:18px;margin:26px 0 8px}
+.theme-group:first-child h2{margin-top:0}
+.theme-block{margin:0 0 14px}
+.theme-block > summary{cursor:pointer;font-weight:600;font-size:15px;padding:6px 0}
+.theme-block > summary .n{color:var(--muted);font-weight:400}
+.empty{color:var(--muted);padding:30px 0}
+.notes{font-size:12.5px;color:var(--muted);margin:4px 0 0}
+#menuBtn{display:none}
+@media (max-width: 860px){
+  .wrap{grid-template-columns:1fr}
+  aside{position:static;height:auto;border-right:none;border-bottom:1px solid var(--line);display:none}
+  aside.open{display:block}
+  #menuBtn{display:inline-block}
+  main{padding:14px 16px 60px}
+  header{padding:10px 16px;position:static}
+}
+@media print{ header,aside{display:none} .wrap{display:block} .card{break-inside:avoid} }
+
+/* --- Grafica ispirata a borlizzi.it --- */
+.brandbar{background:#fff;border-bottom:4px solid var(--brand);padding:14px 20px;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.brandbar img{height:64px;width:auto;max-width:100%;display:block}
+.brandbar .slogan{font:400 15px var(--display);letter-spacing:.06em;text-transform:uppercase;color:var(--blue-d);margin:0}
+@media (prefers-color-scheme: dark){ .brandbar{background:#fff} }
+header{box-shadow:0 3px 0 var(--brand)}
+header h1{font:500 19px/1.1 var(--display);letter-spacing:.04em;text-transform:uppercase;color:var(--blue-d)}
+header h1 small{font:400 12px var(--body,inherit);letter-spacing:0;text-transform:none;color:var(--muted)}
+nav.tabs button{font-family:var(--display);letter-spacing:.05em;text-transform:uppercase;font-size:13px;border-color:var(--blue)}
+nav.tabs button.on{background:var(--brand-d);border-color:var(--brand-d);color:#fff}
+.chip.on{background:var(--brand-d);color:#fff}
+h2.week{font-family:var(--display);font-weight:500;letter-spacing:.03em;text-transform:uppercase;color:var(--blue-d);border-bottom:2px solid var(--brand);padding-bottom:6px}
+h3.sec{font-family:var(--display);font-weight:500;color:var(--accent);border-bottom-color:var(--blue)}
+.card{border-radius:6px}
+.card h4{font-family:var(--display);font-weight:500;font-size:17px;letter-spacing:.01em}
+aside h3{font-family:var(--display);font-weight:500;color:var(--blue-d)}
+.theme-group h2{font-family:var(--display);font-weight:500;text-transform:uppercase;letter-spacing:.03em;color:var(--blue-d)}
+.sitefoot{border-top:4px solid var(--brand);background:var(--panel);color:var(--muted);font-size:12.5px;padding:16px 20px}
+@media (max-width:860px){ .brandbar{padding:10px 16px} .brandbar img{height:48px} }
+</style>
+</head>
+<body>
+<div class="brandbar"><img src="assets/logo-borlizzi.webp" alt="Borlizzi Medical Center"><p class="slogan">Aggiornamento ecografia · SIUMB, EFSUMB e WFUMB al servizio della pratica clinica</p></div>
+<header>
+  <h1>Aggiornamento Ecografia<small id="gen"></small></h1>
+  <input id="q" type="search" placeholder="Cerca in titoli, autori, riviste e riassunti (es. CEUS fegato, EUROSON, linee guida)" autocomplete="off">
+  <nav class="tabs" id="tabs">
+    <button id="menuBtn" type="button">Indice e filtri</button>
+    <button data-v="weeks" class="on" type="button">Per settimana</button>
+    <button data-v="themes" type="button">Per tema</button>
+    <button data-v="files" type="button">File</button>
+  </nav>
+</header>
+<div class="wrap">
+  <aside id="side">
+    <h3>Indice dei contenuti</h3>
+    <div class="toc" id="toc"></div>
+    <h3>Sezione</h3>
+    <div class="chips" id="secChips"></div>
+    <div id="facetBox"></div>
+  </aside>
+  <main id="main"></main>
+</div>
+<div class="sitefoot">Fonti: siumb.it, efsumb.org, wfumb.org. Uso personale di studio e aggiornamento professionale.</div>
+<script>
+const DATA = {"generated": "30/10/2026 16:56", "files": [{"name": "Aggiornamento_Ecografia_2026-10-30.docx", "ext": "docx", "size": 83705, "modified": "30/10/2026", "date": "2026-10-30", "status": "", "digest": 0, "week": "w0"}], "weeks": [{"id": "w0", "date": "2026-10-30", "label": "30 ottobre 2026", "file": "Aggiornamento_Ecografia_2026-10-30.docx", "subtitle": ["Settimana del 30 ottobre 2026 – notizie, eventi e linee guida SIUMB, EFSUMB e WFUMB (agosto-ottobre 2026)"], "notes": ["Fonti: siumb.it, efsumb.org, wfumb.org (consultati il 30 ottobre 2026). Le sezioni Eco News e Documenti SIUMB richiedono l'accesso da socio e non sono state lette. Per le linee guida e i PDF indicati come \"contenuto non letto\" il riassunto si basa solo su titolo e pagina elenco."], "sections": [{"name": "SIUMB – Società Italiana di Ultrasonologia in Medicina e Biologia", "canon": "SIUMB – Società Italiana", "articles": ["a0", "a1", "a2", "a3", "a4", "a5"]}, {"name": "EFSUMB – European Federation of Societies for Ultrasound in Medicine and Biology", "canon": "EFSUMB – Federazione Europea", "articles": ["a6", "a7", "a8", "a9", "a10", "a11", "a12", "a13", "a14", "a15", "a16"]}, {"name": "WFUMB – World Federation for Ultrasound in Medicine and Biology", "canon": "WFUMB – Federazione Mondiale", "articles": ["a17", "a18", "a19", "a20", "a21"]}]}], "articles": [{"id": "a0", "week": "w0", "section": "SIUMB – Società Italiana di Ultrasonologia in Medicina e Biologia", "canon": "SIUMB – Società Italiana", "title": "Invito EFSUMB: studio Delphi per un curriculum europeo di ecografia pediatrica", "meta": "SIUMB, In primo piano – 1 ottobre 2026", "summary": "SIUMB rilancia l'invito EFSUMB a partecipare a uno studio Delphi per definire un curriculum europeo di ecografia per i medici di prima linea che esaminano una popolazione pediatrica non selezionata. Possono aderire ecografisti e docenti esperti, compilando un questionario di idoneità tramite il QR code del volantino (PDF sul sito). Scadenze non indicate nel testo letto.", "urls": ["https://www.siumb.it/invito_efsumb/"], "tags": [["Società", "SIUMB"], ["Società", "EFSUMB"], ["Ambito clinico", "Pediatria"]], "also": []}, {"id": "a1", "week": "w0", "section": "SIUMB – Società Italiana di Ultrasonologia in Medicina e Biologia", "canon": "SIUMB – Società Italiana", "title": "Corso Teorico di formazione in ecografia veterinaria (webinar)", "meta": "SIUMB, Eventi formativi – 28-29 novembre 2026, modalità webinar", "summary": "Corso teorico di ecografia veterinaria in webinar il 28 e 29 novembre 2026. Iscrizioni aperte dal 30 ottobre; sul sito sono disponibili il programma e la scheda di iscrizione in PDF (quote e programma dettagliato non verificati).", "urls": ["https://www.siumb.it/eco_vet_webinar/"], "tags": [["Società", "SIUMB"], ["Ambito clinico", "Veterinaria"], ["Tipo di contenuto", "Corso / formazione"], ["Tipo di contenuto", "Webinar / online"]], "also": []}, {"id": "a2", "week": "w0", "section": "SIUMB – Società Italiana di Ultrasonologia in Medicina e Biologia", "canon": "SIUMB – Società Italiana", "title": "Programma formativo SIUMB 2026 – Lecce, 24-27 ottobre", "meta": "SIUMB, Eventi formativi – Lecce, Grand Hotel Tiziano, 24-27 ottobre 2026", "summary": "Settimana formativa con: Corso Teorico di Formazione in Ultrasonologia (400 posti, 24-27/10); corso specialistico di ecografia diagnostica e operativa nel collo endocrino (ECM, 100 posti, 24/10); Update Ecografico 2026 (300 posti, gratuito per i soci in regola, 25/10); Medicina estetica (ECM, 30 posti, 24-25/10); Muscoloscheletrica (ECM, 100 posti, 25-26/10); Pediatria (ECM, 100 posti, 26/10); corso per studenti il 24/10.", "urls": ["https://www.siumb.it/programma-formativo-siumb-2026-lecce/"], "tags": [["Società", "SIUMB"], ["Ambito clinico", "Tiroide e collo"], ["Ambito clinico", "Muscoloscheletrico"], ["Ambito clinico", "Pediatria"], ["Ambito clinico", "Medicina estetica / dermatologia"], ["Tipo di contenuto", "Corso / formazione"], ["Tipo di contenuto", "Vita associativa"]], "also": []}, {"id": "a3", "week": "w0", "section": "SIUMB – Società Italiana di Ultrasonologia in Medicina e Biologia", "canon": "SIUMB – Società Italiana", "title": "Bando giovani soci SIUMB per il programma formativo di Lecce", "meta": "SIUMB, Notizie – bando collegato al corso di Lecce 24-27 ottobre 2026", "summary": "Bando riservato ai giovani soci SIUMB per partecipare alla settimana formativa di Lecce; sul sito il bando e il modulo di domanda in PDF (requisiti e scadenze non verificati).", "urls": ["https://www.siumb.it/programma-formativo-lecce-bando/"], "tags": [["Società", "SIUMB"], ["Tipo di contenuto", "Corso / formazione"], ["Tipo di contenuto", "Borse / premi / bandi"], ["Tipo di contenuto", "Vita associativa"]], "also": []}, {"id": "a4", "week": "w0", "section": "SIUMB – Società Italiana di Ultrasonologia in Medicina e Biologia", "canon": "SIUMB – Società Italiana", "title": "Programma formativo settembre 2026 – Catanzaro", "meta": "SIUMB, In primo piano – pubblicato il 17 aprile 2026; corso 26-29 settembre 2026", "summary": "Corso Teorico di Formazione in Ultrasonologia a Catanzaro dal 26 al 29 settembre 2026, seconda delle tre settimane formative 2026 (Padova 11-14 aprile, Catanzaro, Lecce 24-27 ottobre).", "urls": ["https://www.siumb.it/programma-formativo-2026-catanzaro/"], "tags": [["Società", "SIUMB"], ["Tipo di contenuto", "Corso / formazione"]], "also": []}, {"id": "a5", "week": "w0", "section": "SIUMB – Società Italiana di Ultrasonologia in Medicina e Biologia", "canon": "SIUMB – Società Italiana", "title": "Journal of Ultrasound – rivista ufficiale SIUMB", "meta": "SIUMB, Pubblicazioni – pagina della rivista (data non indicata)", "summary": "Rivista ufficiale SIUMB edita da Springer, trimestrale (marzo, giugno, settembre, dicembre), in inglese, indicizzata su PubMed/Medline; secondo la pagina ha IF 2 da gennaio 2023. Disponibile la presentazione JUS 2026 in PDF.", "urls": ["https://www.siumb.it/journal-of-ultrasound/"], "tags": [["Società", "SIUMB"], ["Tipo di contenuto", "Rivista / pubblicazione"]], "also": []}, {"id": "a6", "week": "w0", "section": "EFSUMB – European Federation of Societies for Ultrasound in Medicine and Biology", "canon": "EFSUMB – Federazione Europea", "title": "Journal Club: Contrast-enhanced US with Perfluorobutane to Diagnose Small Lateral Cervical Lymph Node Metastases of Papillary Thyroid Carcinoma", "meta": "EFSUMB Journal Club – 28 ottobre 2026 (articolo di Xiao L, Zhou J, Tan W, et al.)", "summary": "Commento a uno studio sull'uso della CEUS con perfluorobutano, in particolare della fase postvascolare, per riconoscere piccole metastasi linfonodali laterocervicali del carcinoma papillare della tiroide, difficili da diagnosticare con l'ecografia convenzionale. Risultati numerici non disponibili nell'estratto letto.", "urls": ["https://efsumb.org/journal-review/contrast-enhanced-us-with-perfluorobutane-to-diagnose-small-lateral-cervical-lymph-node-metastases-of-papillary-thyroid-carcinoma/"], "tags": [["Società", "EFSUMB"], ["Ambito clinico", "Tiroide e collo"], ["Tecnica", "CEUS / mezzo di contrasto"], ["Tipo di contenuto", "Rivista / pubblicazione"]], "also": []}, {"id": "a7", "week": "w0", "section": "EFSUMB – European Federation of Societies for Ultrasound in Medicine and Biology", "canon": "EFSUMB – Federazione Europea", "title": "Journal Club: Beyond single cut-off values in ultrasound: limitations and implications for context aware radiology reporting", "meta": "EFSUMB Journal Club – 28 ottobre 2026 (articolo di Schöpper I, Dohna M, Bansmann PM)", "summary": "Riflessione critica sull'uso di singoli valori soglia per classificare come normali o patologiche le misure ecografiche quantitative: plausibilità biologica e validità esterna limitate in popolazioni eterogenee; proposta di refertazione attenta al contesto clinico.", "urls": ["https://efsumb.org/journal-review/beyond-single-cut-off-values-in-ultrasound-limitations-and-implications-for-context-aware-radiology-reporting/"], "tags": [["Società", "EFSUMB"], ["Tecnica", "Ecografia quantitativa / QUS"], ["Tipo di contenuto", "Rivista / pubblicazione"]], "also": []}, {"id": "a8", "week": "w0", "section": "EFSUMB – European Federation of Societies for Ultrasound in Medicine and Biology", "canon": "EFSUMB – Federazione Europea", "title": "EUROSON School: Global CEUS Masterclass, Hepatic and Extrahepatic Indications – Europe meets China and North America", "meta": "EFSUMB, EUROSON School – Monaco di Baviera, 25-28 ottobre 2026", "summary": "Masterclass internazionale sulla CEUS epatica ed extraepatica con docenti da Europa, Cina e Nord America. Dettagli del programma non letti.", "urls": ["https://efsumb.org/events/international-ceus-course-munich2026/"], "tags": [["Società", "EFSUMB"], ["Ambito clinico", "Fegato e vie biliari"], ["Tecnica", "CEUS / mezzo di contrasto"], ["Tipo di contenuto", "Congresso"], ["Tipo di contenuto", "Corso / formazione"]], "also": []}, {"id": "a9", "week": "w0", "section": "EFSUMB – European Federation of Societies for Ultrasound in Medicine and Biology", "canon": "EFSUMB – Federazione Europea", "title": "EUROSON School: corsi di ecografia muscoloscheletrica (intermedio e avanzato) – Antalya", "meta": "EFSUMB, EUROSON School – Antalya (Turchia), 28-30 e 29-31 ottobre 2026", "summary": "Due corsi consecutivi di ecografia muscoloscheletrica, livello intermedio e livello avanzato. A metà ottobre si è tenuto anche il corso base di ecografia muscoloscheletrica in reumatologia a Graz (14-16 ottobre).", "urls": ["https://efsumb.org/events/advanced-musculoskeletal-ultrasound-course/"], "tags": [["Società", "EFSUMB"], ["Ambito clinico", "Muscoloscheletrico"], ["Tipo di contenuto", "Congresso"], ["Tipo di contenuto", "Corso / formazione"]], "also": []}, {"id": "a10", "week": "w0", "section": "EFSUMB – European Federation of Societies for Ultrasound in Medicine and Biology", "canon": "EFSUMB – Federazione Europea", "title": "Corsi patrocinati EFSUMB: International Head and Neck Ultrasound Course e Intestinal Ultrasound", "meta": "EFSUMB, Endorsed courses – 24-25 ottobre 2026 (testa-collo) e 17 ottobre 2026 (intestino)", "summary": "Due corsi con patrocinio EFSUMB: ecografia di testa e collo (24-25 ottobre) ed ecografia intestinale (17 ottobre). Sedi non indicate nel calendario.", "urls": ["https://efsumb.org/events/endorsed-course-international-head-and-neck-ultrasound-course/"], "tags": [["Società", "EFSUMB"], ["Ambito clinico", "Addome e gastroenterologia"], ["Ambito clinico", "Tiroide e collo"], ["Tipo di contenuto", "Corso / formazione"]], "also": []}, {"id": "a11", "week": "w0", "section": "EFSUMB – European Federation of Societies for Ultrasound in Medicine and Biology", "canon": "EFSUMB – Federazione Europea", "title": "Webinar: PoCUS in Primary Care", "meta": "EFSUMB, Webinar – 8 ottobre 2026", "summary": "Webinar sull'ecografia point-of-care nella medicina generale, in linea con il recente position paper EFSUMB sul curriculum POCUS in primary care. Relatori non indicati nel calendario.", "urls": ["https://efsumb.org/webinar-08-october-2026/"], "tags": [["Società", "EFSUMB"], ["Ambito clinico", "Emergenza / POCUS"], ["Tipo di contenuto", "Linea guida / raccomandazioni"], ["Tipo di contenuto", "Webinar / online"]], "also": []}, {"id": "a12", "week": "w0", "section": "EFSUMB – European Federation of Societies for Ultrasound in Medicine and Biology", "canon": "EFSUMB – Federazione Europea", "title": "EFSUMB Position Statement on Live Ultrasound Scanning (aggiornamento 2026)", "meta": "EFSUMB, Linee guida e raccomandazioni – PDF caricato a luglio 2026 (Kollmann et al.)", "summary": "Aggiornamento 2026 della presa di posizione EFSUMB sulla scansione ecografica dal vivo (es. dimostrazioni su volontari durante corsi e congressi). Contenuto del documento non letto.", "urls": ["https://efsumb.org/wp-content/uploads/2026/07/2026_Kollmann_LiveScanning_10-1055-a-2818-8609_Authors_e-offprint.pdf"], "tags": [["Società", "EFSUMB"], ["Tipo di contenuto", "Linea guida / raccomandazioni"], ["Tipo di contenuto", "Congresso"], ["Tipo di contenuto", "Corso / formazione"]], "also": []}, {"id": "a13", "week": "w0", "section": "EFSUMB – European Federation of Societies for Ultrasound in Medicine and Biology", "canon": "EFSUMB – Federazione Europea", "title": "EFSUMB Guidelines on Multiparametric Ultrasound Thyroid Nodule Evaluation, Part I e Part II, 2026", "meta": "EFSUMB, Linee guida 2026 – Thieme", "summary": "Nuove linee guida in due parti sulla valutazione multiparametrica dei noduli tiroidei (B-mode, Doppler, elastografia, CEUS). Elencate tra le linee guida 2026; contenuto non letto. Parte II: https://www.thieme-connect.com/products/ejournals/html/10.1055/a-2761-1329", "urls": ["https://www.thieme-connect.com/products/ejournals/html/10.1055/a-2761-1329", "https://www.thieme-connect.com/products/ejournals/html/10.1055/a-2761-1191"], "tags": [["Società", "EFSUMB"], ["Ambito clinico", "Tiroide e collo"], ["Tecnica", "CEUS / mezzo di contrasto"], ["Tecnica", "Elastografia"], ["Tecnica", "Doppler"], ["Tipo di contenuto", "Linea guida / raccomandazioni"], ["Tipo di contenuto", "Rivista / pubblicazione"]], "also": []}, {"id": "a14", "week": "w0", "section": "EFSUMB – European Federation of Societies for Ultrasound in Medicine and Biology", "canon": "EFSUMB – Federazione Europea", "title": "EFSUMB Guidelines on Multiparametric Ultrasound of the Scrotum 2026", "meta": "EFSUMB, Linee guida 2026 – Thieme", "summary": "Linee guida 2026 sull'ecografia multiparametrica dello scroto. Elencate sulla pagina delle linee guida; contenuto non letto.", "urls": ["https://www.thieme-connect.de/products/ejournals/html/10.1055/a-2785-3267"], "tags": [["Società", "EFSUMB"], ["Ambito clinico", "Rene e urologia"], ["Tipo di contenuto", "Linea guida / raccomandazioni"], ["Tipo di contenuto", "Rivista / pubblicazione"]], "also": []}, {"id": "a15", "week": "w0", "section": "EFSUMB – European Federation of Societies for Ultrasound in Medicine and Biology", "canon": "EFSUMB – Federazione Europea", "title": "Point-of-care ultrasound in primary care – EFSUMB core curriculum and training recommendations (position paper)", "meta": "EFSUMB, Position paper 2026 – Thieme", "summary": "Curriculum di base e raccomandazioni per la formazione all'ecografia point-of-care in medicina generale. Contenuto non letto.", "urls": ["https://www.thieme-connect.de/products/ejournals/html/10.1055/a-2771-2848"], "tags": [["Società", "EFSUMB"], ["Ambito clinico", "Emergenza / POCUS"], ["Tipo di contenuto", "Linea guida / raccomandazioni"], ["Tipo di contenuto", "Corso / formazione"], ["Tipo di contenuto", "Rivista / pubblicazione"]], "also": []}, {"id": "a16", "week": "w0", "section": "EFSUMB – European Federation of Societies for Ultrasound in Medicine and Biology", "canon": "EFSUMB – Federazione Europea", "title": "EFSUMB Newsletter 05/2026", "meta": "EFSUMB, Pubblicazioni – PDF caricato a ottobre 2026", "summary": "Ultimo numero della newsletter EFSUMB, collegato dalla homepage. Contenuto non letto.", "urls": ["https://efsumb.org/wp-content/uploads/2026/10/10-01-00-EFSUMB_05_26.pdf"], "tags": [["Società", "EFSUMB"], ["Tipo di contenuto", "Rivista / pubblicazione"]], "also": []}, {"id": "a17", "week": "w0", "section": "WFUMB – World Federation for Ultrasound in Medicine and Biology", "canon": "WFUMB – Federazione Mondiale", "title": "FLAUS/WFUMB Webinar 5: Liver Elastography and Fatty Liver Quantification", "meta": "WFUMB/FLAUS, Webinar – 14 ottobre 2026, ore 21:00 Brasile (GMT-3)", "summary": "Relatore Dr. Antonio Matteoni de Athayde. Webinar della serie 2026 FLAUS/WFUMB (sei incontri da febbraio a dicembre), in spagnolo con sottotitoli in inglese, su elastografia epatica e quantificazione del grasso epatico.", "urls": ["https://wfumb.org/flaus-webinars-2026/"], "tags": [["Società", "WFUMB"], ["Ambito clinico", "Fegato e vie biliari"], ["Tecnica", "Elastografia"], ["Tipo di contenuto", "Webinar / online"]], "also": []}, {"id": "a18", "week": "w0", "section": "WFUMB – World Federation for Ultrasound in Medicine and Biology", "canon": "WFUMB – Federazione Mondiale", "title": "Webinar: Steatotic Liver Disease in Clinical Practice", "meta": "WFUMB, Webinar – 22 settembre 2026, ore 17:00 CEST (l'indirizzo della pagina indica il 23 settembre)", "summary": "Moderatrice Mar Pérez-Peña. Interventi di Annalisa Berzigotti (classificazione, clinica, complicanze e algoritmi EASL/AASLD/APASL), Alina Popescu (B-mode nella steatosi), Giovanna Ferraioli (ecografia quantitativa e attenuazione per la quantificazione del grasso) e Vincent Wong (terapia di MASLD/MASH e biomarcatori di imaging per la scelta del trattamento).", "urls": ["https://wfumb.org/2026/04/08/steatotic-liver-disease-webinar-23-september-2026/"], "tags": [["Società", "WFUMB"], ["Ambito clinico", "Fegato e vie biliari"], ["Tecnica", "Ecografia quantitativa / QUS"], ["Tipo di contenuto", "Webinar / online"]], "also": []}, {"id": "a19", "week": "w0", "section": "WFUMB – World Federation for Ultrasound in Medicine and Biology", "canon": "WFUMB – Federazione Mondiale", "title": "WFUMB Strategic Plan 2026-2031", "meta": "WFUMB, Governance – PDF caricato ad agosto 2026", "summary": "Nuovo piano strategico quinquennale della federazione, che sostituisce il piano 2022-2026. Contenuto del PDF non letto.", "urls": ["https://wfumb.org/wp-content/uploads/2026/08/WFUMB-Strat-plan-0826_26-31.pdf"], "tags": [["Società", "WFUMB"]], "also": []}, {"id": "a20", "week": "w0", "section": "WFUMB – World Federation for Ultrasound in Medicine and Biology", "canon": "WFUMB – Federazione Mondiale", "title": "FLAUS/WFUMB Webinar 4: Ultrasound: Role and updating of Ultrasound in Esthetics", "meta": "WFUMB/FLAUS, Webinar – 12 agosto 2026", "summary": "Relatrice Dra. Ximena Wortsman, sull'ecografia in medicina estetica. Registrazione disponibile in spagnolo con sottotitoli in inglese attivabili.", "urls": ["https://wfumb.org/flaus-webinars-2026/"], "tags": [["Società", "WFUMB"], ["Ambito clinico", "Medicina estetica / dermatologia"], ["Tipo di contenuto", "Webinar / online"]], "also": []}, {"id": "a21", "week": "w0", "section": "WFUMB – World Federation for Ultrasound in Medicine and Biology", "canon": "WFUMB – Federazione Mondiale", "title": "Consensus on Best Practice in Aesthetic Ultrasound (Diagnostic Imaging) – 2025", "meta": "WFUMB, Linee guida – pubblicato sul sito il 13 gennaio 2026", "summary": "Documento di consenso WFUMB sulle buone pratiche dell'ecografia diagnostica in ambito estetico; è la linea guida più recente elencata sul sito. Le precedenti sono le guide 2024 sull'ecografia multiparametrica del fegato (elastografia e quantificazione del grasso) e sulla pulizia delle sonde endocavitarie.", "urls": ["https://wfumb.org/2026/01/13/consensus-on-best-practice-in-aesthetic-ultrasound-diagnostic-imaging-2025/"], "tags": [["Società", "WFUMB"], ["Ambito clinico", "Fegato e vie biliari"], ["Ambito clinico", "Medicina estetica / dermatologia"], ["Tecnica", "Elastografia"], ["Tipo di contenuto", "Linea guida / raccomandazioni"]], "also": []}], "groups": ["Società", "Ambito clinico", "Tecnica", "Tipo di contenuto"], "sections": ["SIUMB – Società Italiana", "EFSUMB – Federazione Europea", "WFUMB – Federazione Mondiale", "Altro"]};
+const A = Object.fromEntries(DATA.articles.map(a => [a.id, a]));
+const W = Object.fromEntries(DATA.weeks.map(w => [w.id, w]));
+const state = { view: "weeks", q: "", tags: new Set(), secs: new Set(), themeGroup: DATA.groups[0] };
+
+const norm = s => (s || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+const esc = s => (s || "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const tagKey = t => t[0] + "|" + t[1];
+DATA.articles.forEach(a => {
+  a._hay = norm([a.title, a.meta, a.summary, a.section, W[a.week].label, a.tags.map(t => t[1]).join(" ")].join(" \n "));
+  a._tags = new Set(a.tags.map(tagKey));
+});
+document.getElementById("gen").textContent =
+  DATA.weeks.length + " settimane · " + DATA.articles.length + " voci · aggiornato il " + DATA.generated;
+
+function terms() { return norm(state.q).split(/\s+/).filter(Boolean); }
+function matches(a) {
+  const t = terms();
+  if (t.length && !t.every(x => a._hay.includes(x))) return false;
+  for (const k of state.tags) if (!a._tags.has(k)) return false;
+  if (state.secs.size && !state.secs.has(a.canon)) return false;
+  return true;
+}
+function hl(text) {
+  const t = terms();
+  let out = esc(text);
+  if (!t.length) return out;
+  // evidenzia ignorando accenti: mappa posizioni sul testo normalizzato
+  const src = text || ""; const n = norm(src);
+  if (n.length !== src.length) return out;
+  const marks = new Array(src.length).fill(false);
+  t.forEach(x => { let i = 0; while ((i = n.indexOf(x, i)) !== -1) { for (let j = i; j < i + x.length; j++) marks[j] = true; i += x.length; } });
+  let res = "", open = false;
+  for (let i = 0; i < src.length; i++) {
+    if (marks[i] && !open) { res += "<mark>"; open = true; }
+    if (!marks[i] && open) { res += "</mark>"; open = false; }
+    res += esc(src[i]);
+  }
+  return res + (open ? "</mark>" : "");
+}
+function linkLabel(u) {
+  if (/pubmed\.ncbi/.test(u)) return "PubMed";
+  if (/ncbi\.nlm\.nih\.gov\/pmc/.test(u)) return "PMC";
+  if (/doi\.org/.test(u)) return "DOI";
+  if (/siumb\.it/.test(u)) return "SIUMB";
+  if (/efsumb\.org/.test(u)) return "EFSUMB";
+  if (/wfumb\.org/.test(u)) return "WFUMB";
+  try { return new URL(u).hostname.replace(/^www\./, ""); } catch (e) { return "Link"; }
+}
+function card(a, showWeek) {
+  const w = W[a.week];
+  const links = a.urls.map(u => `<a href="${esc(u)}" target="_blank" rel="noopener">Apri su ${esc(linkLabel(u))} ↗</a>`).join(" ");
+  const tags = a.tags.map(t => `<span class="tag" data-tag="${esc(tagKey(t))}" title="${esc(t[0])}">${esc(t[1])}</span>`).join("");
+  const also = a.also.length ? `<div class="also">Compare anche in: ${a.also.map(id => `<a data-go="${id}">${esc(W[A[id].week].label)}</a>`).join(", ")}</div>` : "";
+  return `<article class="card" id="${a.id}">
+    <h4>${hl(a.title)}</h4>
+    ${a.meta ? `<div class="meta">${hl(a.meta)}</div>` : ""}
+    ${a.summary ? `<p class="sum">${hl(a.summary)}</p>` : ""}
+    <div class="foot">${showWeek ? `<span class="badge wk" data-week="${w.id}">${esc(w.label)}</span>` : ""}
+      <span class="badge">${esc(a.canon)}</span>${tags} ${links}</div>${also}
+  </article>`;
+}
+function statusBar(n) {
+  const parts = [];
+  if (state.q) parts.push(`ricerca «${esc(state.q)}»`);
+  state.secs.forEach(s => parts.push(esc(s)));
+  state.tags.forEach(k => parts.push(esc(k.split("|")[1])));
+  const any = parts.length;
+  return `<div class="status"><span>${n} voci${any ? " per " + parts.join(" + ") : ""}</span>${any ? '<button type="button" id="clear">Azzera filtri</button>' : ""}</div>`;
+}
+
+function renderWeeks() {
+  let html = "", n = 0;
+  DATA.weeks.forEach(w => {
+    let body = "";
+    w.sections.forEach(s => {
+      const list = s.articles.map(id => A[id]).filter(matches);
+      if (!list.length) return;
+      n += list.length;
+      body += `<h3 class="sec">${esc(s.name)}</h3>` + list.map(a => card(a, false)).join("");
+    });
+    if (body) html += `<h2 class="week" id="${w.id}">Settimana del ${esc(w.label)}</h2>
+      <div class="weeksub">${esc(w.subtitle.join(" · "))} — file: ${esc(w.file)}</div>` + body;
+  });
+  return statusBar(n) + (html || '<div class="empty">Nessun risultato.</div>');
+}
+function renderThemes() {
+  const list = DATA.articles.filter(matches);
+  let html = statusBar(list.length) + '<div class="chips" style="margin-bottom:16px">' +
+    DATA.groups.concat(["Sezione"]).map(g => `<button class="chip ${g === state.themeGroup ? "on" : ""}" data-group="${esc(g)}">${esc(g)}</button>`).join("") + "</div>";
+  const buckets = new Map();
+  list.forEach(a => {
+    const labels = state.themeGroup === "Sezione" ? [a.canon] : a.tags.filter(t => t[0] === state.themeGroup).map(t => t[1]);
+    (labels.length ? labels : ["(altri argomenti)"]).forEach(l => { if (!buckets.has(l)) buckets.set(l, []); buckets.get(l).push(a); });
+  });
+  const sorted = [...buckets.entries()].sort((x, y) => (x[0].startsWith("(") - y[0].startsWith("(")) || y[1].length - x[1].length);
+  html += '<div class="theme-group">' + sorted.map(([l, arr]) => `<details class="theme-block" ${state.q || state.tags.size ? "open" : ""}>
+     <summary>${esc(l)} <span class="n">(${arr.length})</span></summary>${arr.map(a => card(a, true)).join("")}</details>`).join("") + "</div>";
+  return html;
+}
+function renderFiles() {
+  const rows = DATA.files.map(f => {
+    const w = f.week ? W[f.week] : null;
+    const cnt = w ? w.sections.reduce((s, x) => s + x.articles.length, 0) : "";
+    return `<tr><td><a href="${encodeURI(f.name)}">${esc(f.name)}</a></td>
+      <td>${w ? `<a data-week="${w.id}" href="#${w.id}">${esc(w.label)}</a>` : (f.date ? esc(f.date.split("-").reverse().join("/")) : "")}</td>
+      <td>${cnt}</td><td>${(f.size / 1024).toFixed(1)} KB</td>
+      <td>${esc(f.status || (w ? w.sections.map(s => s.name).join("; ") : ""))}${w && w.notes.length ? `<div class="notes">${esc(w.notes.join(" "))}</div>` : ""}</td></tr>`;
+  }).join("");
+  return `<p class="status">${DATA.files.length} file nella cartella. Il nome del file apre il documento originale.</p>
+    <table class="files"><thead><tr><th>File</th><th>Settimana</th><th>Voci</th><th>Dim.</th><th>Contenuto / note</th></tr></thead><tbody>${rows}</tbody></table>`;
+}
+function renderSide() {
+  document.getElementById("toc").innerHTML = DATA.weeks.map((w, i) => {
+    const secs = w.sections.map(s => {
+      const list = s.articles.map(id => A[id]).filter(matches);
+      if (!list.length) return "";
+      return `<div class="sec">${esc(s.canon)}</div>` + list.map(a => `<a href="#${a.id}" data-go="${a.id}">${esc(a.title)}</a>`).join("");
+    }).join("");
+    const c = w.sections.reduce((s, x) => s + x.articles.filter(id => matches(A[id])).length, 0);
+    return `<details ${i === 0 || (state.q && c) ? "open" : ""}><summary>${esc(w.label)} <span class="count">(${c})</span></summary>${secs}</details>`;
+  }).join("");
+  const counts = {}; DATA.articles.forEach(a => { counts[a.canon] = (counts[a.canon] || 0) + 1; a.tags.forEach(t => { const k = tagKey(t); counts[k] = (counts[k] || 0) + 1; }); });
+  document.getElementById("secChips").innerHTML = DATA.sections.map(s =>
+    `<button class="chip ${state.secs.has(s) ? "on" : ""}" data-sec="${esc(s)}">${esc(s)}<span class="n">${counts[s] || 0}</span></button>`).join("");
+  const byGroup = {};
+  DATA.articles.forEach(a => a.tags.forEach(t => { (byGroup[t[0]] = byGroup[t[0]] || new Set()).add(t[1]); }));
+  document.getElementById("facetBox").innerHTML = DATA.groups.filter(g => byGroup[g]).map(g => {
+    const labels = [...byGroup[g]].sort((x, y) => counts[g + "|" + y] - counts[g + "|" + x]);
+    return `<h3>${esc(g)}</h3><div class="chips">` + labels.map(l => { const k = g + "|" + l;
+      return `<button class="chip ${state.tags.has(k) ? "on" : ""}" data-tag="${esc(k)}">${esc(l)}<span class="n">${counts[k]}</span></button>`; }).join("") + "</div>";
+  }).join("");
+}
+function render() {
+  document.querySelectorAll("#tabs button[data-v]").forEach(b => b.classList.toggle("on", b.dataset.v === state.view));
+  const m = document.getElementById("main");
+  m.innerHTML = state.view === "weeks" ? renderWeeks() : state.view === "themes" ? renderThemes() : renderFiles();
+  renderSide();
+}
+function go(id) {
+  const a = A[id];
+  if (!a) return;
+  if (!matches(a)) { state.q = ""; state.tags.clear(); state.secs.clear(); document.getElementById("q").value = ""; }
+  if (state.view === "files") state.view = "weeks";
+  render();
+  let el = document.getElementById(id);
+  const det = el && el.closest("details"); if (det) det.open = true;
+  if (el) { el.scrollIntoView({behavior: "smooth", block: "start"}); el.classList.add("flash"); setTimeout(() => el.classList.remove("flash"), 1600); }
+  document.getElementById("side").classList.remove("open");
+}
+function goWeek(id) {
+  state.view = "weeks"; render();
+  const el = document.getElementById(id); if (el) el.scrollIntoView({behavior: "smooth"});
+  document.getElementById("side").classList.remove("open");
+}
+let timer;
+document.getElementById("q").addEventListener("input", e => { clearTimeout(timer); timer = setTimeout(() => { state.q = e.target.value.trim(); render(); }, 150); });
+document.addEventListener("click", e => {
+  const t = e.target.closest("[data-go],[data-week],[data-tag],[data-sec],[data-group],[data-v],#clear,#menuBtn");
+  if (!t) return;
+  if (t.id === "menuBtn") { document.getElementById("side").classList.toggle("open"); return; }
+  if (t.id === "clear") { state.q = ""; state.tags.clear(); state.secs.clear(); document.getElementById("q").value = ""; render(); return; }
+  if (t.dataset.v) { state.view = t.dataset.v; render(); window.scrollTo(0, 0); return; }
+  if (t.dataset.go) { e.preventDefault(); go(t.dataset.go); return; }
+  if (t.dataset.week) { e.preventDefault(); goWeek(t.dataset.week); return; }
+  if (t.dataset.group) { state.themeGroup = t.dataset.group; render(); return; }
+  if (t.dataset.tag) { const k = t.dataset.tag; state.tags.has(k) ? state.tags.delete(k) : state.tags.add(k); render(); return; }
+  if (t.dataset.sec) { const k = t.dataset.sec; state.secs.has(k) ? state.secs.delete(k) : state.secs.add(k); render(); return; }
+});
+render();
+if (location.hash && A[location.hash.slice(1)]) go(location.hash.slice(1));
+</script>
+</body>
+</html>
